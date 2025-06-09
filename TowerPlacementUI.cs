@@ -45,10 +45,21 @@ public class TowerPlacementUI : MonoBehaviour
 
     void Update()
     {
-        // Place the selected tower when the player clicks on a valid tile
         if (selectedIndex != -1 && Input.GetMouseButtonDown(0))
         {
-            PlaceTower(towerPrefabs[selectedIndex]);
+            // Get the cost from the prefab
+            int towerCost = towerPrefabs[selectedIndex].GetComponent<TowerBehavior>().towerCost;
+
+            // Find the CoinSystem in the scene
+            CoinSystem coinSystem = FindFirstObjectByType<CoinSystem>();
+            if (coinSystem != null && coinSystem.SpendCoins(towerCost))
+            {
+                PlaceTower(towerPrefabs[selectedIndex]);
+            }
+            else
+            {
+                Debug.Log("Not enough coins to build the tower.");
+            }
         }
     }
 
@@ -74,6 +85,7 @@ public class TowerPlacementUI : MonoBehaviour
                 Vector3 towerPosition = new Vector3(hit.transform.position.x, hit.transform.position.y + towerYOffset, hit.transform.position.z);
                 // Instantiate the selected tower at the hit position
                 Instantiate(tower, towerPosition, Quaternion.identity);
+                // newTower.GetComponent<TowerBehavior>().BuildTower();
                 Debug.Log("Tower placed at: " + towerPosition);
             }
             else
