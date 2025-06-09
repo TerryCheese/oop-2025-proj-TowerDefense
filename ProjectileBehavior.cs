@@ -38,21 +38,14 @@ public class ProjectileBehavior : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the projectile has hit the target
-        if (other.gameObject == target.gameObject)
+        EnemyBehavior enemy = other.GetComponent<EnemyBehavior>();
+        if (enemy != null && target != null && other.transform == target)
         {
             // Deal damage to the target
-            DealDamage(other.gameObject);
+            enemy.TakeDamage(damage);
 
             // Destroy the projectile
             Destroy(gameObject);
         }
-    }
-
-    private void DealDamage(GameObject target)
-    {
-        // Implement the logic to deal damage to the target
-        // For example, you can call a TakeDamage() method on the target's Health component
-        target.GetComponent<EnemyBehavior>().health -= damage;
     }
 }
