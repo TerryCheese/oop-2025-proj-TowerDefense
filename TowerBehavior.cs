@@ -7,9 +7,14 @@ public class TowerBehavior : MonoBehaviour
     public float attackDamage = 20f; // Amount of damage the tower deals
     public float attackRate = 1f; // Rate at which the tower attacks (in attacks per second)
     public float rotationSpeed = 5f; // Speed at which the tower rotates to face the target
+    public int towerCost = 50; // Cost of the tower in coins
 
     private float nextAttackTime = 0f; // Time when the tower can attack next
     private GameObject currentTarget = null; // The current target the tower is aiming at
+
+    void Start()
+    {
+    }
 
     void Update()
     {
@@ -38,8 +43,11 @@ public class TowerBehavior : MonoBehaviour
         }
     }
 
+
     private GameObject FindClosestEnemy()
     {
+        // Implement the logic to find the closest enemy within the attack range
+        // (same as before)
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         float closestDistance = attackRange;
         GameObject closestEnemy = null;
@@ -59,8 +67,6 @@ public class TowerBehavior : MonoBehaviour
 
     private void RotateTowardsTarget()
     {
-        if (currentTarget == null) return;
-
         // Calculate the direction towards the target
         Vector3 targetDirection = (currentTarget.transform.position - transform.position).normalized;
 
